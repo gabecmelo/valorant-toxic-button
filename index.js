@@ -7,10 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function prepareButtonForMovement() {
       if (isFirstMove) {
-    
         const rect = yesButton.getBoundingClientRect()
         const containerRect = container.getBoundingClientRect()
-    
+  
         const currentLeft = rect.left - containerRect.left
         const currentTop = rect.top - containerRect.top
   
@@ -21,7 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
   
         isFirstMove = false
   
-    
         setTimeout(() => moveButton(), 10)
         return true
       }
@@ -29,16 +27,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function moveButton() {
-    
+      const viewportWidth = window.innerWidth
+      const viewportHeight = window.innerHeight
+  
       const containerRect = container.getBoundingClientRect()
       const buttonRect = yesButton.getBoundingClientRect()
-    
-      const maxX = containerRect.width - buttonRect.width
-      const maxY = containerRect.height * 2
-    
-      const randomX = Math.max(0, Math.floor(Math.random() * maxX))
-      const randomY = Math.max(0, Math.floor(Math.random() * maxY))
-    
+  
+      const containerLeft = containerRect.left
+      const containerTop = containerRect.top
+  
+      const maxX = Math.min(containerRect.width - buttonRect.width, viewportWidth - buttonRect.width - containerLeft)
+  
+      const maxY = Math.min(containerRect.height * 2, viewportHeight - buttonRect.height - containerTop)
+  
+      const randomX = Math.max(0, Math.min(Math.floor(Math.random() * maxX), maxX))
+      const randomY = Math.max(0, Math.min(Math.floor(Math.random() * maxY), maxY))
+  
       yesButton.style.left = randomX + "px"
       yesButton.style.top = randomY + "px"
     }
@@ -50,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     noButton.addEventListener("click", () => {
-      alert("Good choice! Your mental health thanks you!")
+      alert("Boa escolha! Sua saúde mental agradece! <3")
     })
 
     window.addEventListener("resize", () => {
